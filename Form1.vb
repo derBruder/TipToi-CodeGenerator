@@ -1,4 +1,4 @@
-﻿Public Class Form1
+﻿Public Class frmTipToiCode
 
   Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
     'Infos von http://upload.querysave.de/code.html
@@ -12,7 +12,14 @@
     Dim g As Graphics = PictureBox1.CreateGraphics
     Dim iMatrix(40, 40) As Integer
     Dim iData(3, 3) As Integer
-    Dim iValue As Integer = Integer.Parse(txtValue.Text)
+    Dim iValue As Integer
+    Try
+      iValue = Integer.Parse(txtValue.Text)
+    Catch ex As Exception
+      iValue = 0
+      txtValue.Text = "0"
+    End Try
+
     Dim tValue As Integer
 
     Dim bruX As Brush
@@ -44,7 +51,8 @@
     iMatrix(37, 1) = 1 : iMatrix(38, 1) = 1
     iMatrix(37, 2) = 1 : iMatrix(38, 2) = 1
 
-    'Daten in 4er Setzen
+
+    'Daten in 3x3er Setzen
 
     tValue = iValue
     iData(3, 3) = (tValue Mod 4)
@@ -74,29 +82,18 @@
 
 
 
-    
 
-
+    'Generiert Prüfsumme
     Dim check As Integer
-
-
 
     check = (((iValue >> 2) Xor (iValue >> 8) Xor (iValue >> 12) Xor (iValue >> 14)) And 1) << 1
     check = check Or (((iValue) Xor (iValue >> 4) Xor (iValue >> 6) Xor (iValue >> 10)) And 1)
     check = check Xor 2
     iData(1, 1) = check
 
-    'check = iValue Mod 8
-    'Select Case check
-    '  Case 4, 6 : iData(1, 1) = 0 - IIf(iValue Mod 32 >= 16, 1, 0)
-    '  Case 5, 7 : iData(1, 1) = 1 - IIf(iValue Mod 32 >= 16, 1, 0)
-    '  Case 0, 2 : iData(1, 1) = 2 + IIf(iValue Mod 32 >= 16, 1, 0)
-    '  Case 1, 3 : iData(1, 1) = 3 + IIf(iValue Mod 32 >= 16, 1, 0)
-    'End Select
-    'If iData(1, 1) > 3 Then iData(1, 1) = 2
-    'If iData(1, 1) < 0 Then iData(1, 1) = 1
 
-    Label1.Text = iData(1, 1).ToString
+    'Zum Testen
+    'Label1.Text = iData(1, 1).ToString Prüfsumme
 
 
     'Daten in den Matrix eintragen
@@ -136,7 +133,7 @@
 
 
   End Sub
-  
+
   Private Sub Button2_Click(sender As System.Object, e As System.EventArgs) Handles Button2.Click
     txtValue.Text = (Integer.Parse(txtValue.Text) + 1).ToString
     Button1_Click(Nothing, Nothing)
