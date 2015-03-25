@@ -3,7 +3,8 @@
   Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
     'Infos von http://upload.querysave.de/code.html
     'Ravensburger Navigation http://www.ravensburger.de/content/wcm/mediadata/PDF/01_Kinder/tiptoicode_Navigationsleiste.pdf
-
+    ' http://www.nerd.junetz.de/blogbox/index.php?/archives/1378-TipToi-Hacking-II.html
+    'alle Bücher: https://www.ravensburger.de/start/problembehebung/downloads/buecher/index.html
 
 
 
@@ -139,5 +140,13 @@
     Button1_Click(Nothing, Nothing)
 
 
+  End Sub
+
+  Private Sub frmTipToiCode_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+
+  End Sub
+
+  Private Sub Button3_Click(sender As System.Object, e As System.EventArgs) Handles Button3.Click
+    frmOID.ShowDialog()
   End Sub
 End Class
