@@ -1,9 +1,11 @@
 ﻿Public Class frmOID
 
+  Private Declare Function SetWindowPos Lib "user32.dll" (ByVal hwnd As IntPtr, ByVal hWndInsertAfter As Int32, _
+       ByVal x As Int32, ByVal y As Int32, ByVal cx As Int32, ByVal cy As Int32, ByVal wFlags As Int32) As Int32
 
- 
-
-
+  Declare Function SendMessage Lib "user32" Alias "SendMessageA" _
+                   (ByVal hWnd As IntPtr, ByVal wMsg As Integer, ByVal wParam As IntPtr, ByVal lParam As String) As IntPtr
+  Const WM_SETTEXT As Integer = &HC
 
   Sub WasISTHier(maX As Integer, may As Integer)
     Dim g = PictureBox1.CreateGraphics
@@ -86,10 +88,20 @@
   End Sub
 
   Private Sub PictureBox2_Click(sender As System.Object, e As System.EventArgs) Handles PictureBox2.Click
-
+    InExcelSetzen()
   End Sub
 
   Private Sub frmOID_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
     lblDEZ.Text = "DEZ=?"
+  End Sub
+  Sub InExcelSetzen()
+    For Each p As Process In Process.GetProcesses
+      If InStr(UCase(p.ProcessName), "EXCEL") > 0 Then
+        '        SetWindowPos(p.MainWindowHandle, 0, 0, 0, 0, 0, 3)
+        SendMessage(p.Handle, WM_SETTEXT, IntPtr.Zero, lblDEZ.Text + vbCrLf)
+        '       Me.Focus()
+        Stop
+      End If
+    Next
   End Sub
 End Class
